@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+struct Node{ int data; Node* next; };
+int main(){
+    Node* head=NULL,*tail=NULL;
+    int n,x; cin>>n;
+    for(int i=0;i<n;i++){
+        cin>>x;
+        Node* t=new Node{x,NULL};
+        if(!head) head=tail=t;
+        else{ tail->next=t; tail=t; }
+    }
+    Node* prev=NULL,*cur=head,*nxt=NULL;
+    while(cur){
+        nxt=cur->next;
+        cur->next=prev;
+        prev=cur;
+        cur=nxt;
+    }
+    head=prev;
+    while(head){ cout<<head->data; if(head->next) cout<<"->"; head=head->next; }
+    cout<<"->NULL";
+}
