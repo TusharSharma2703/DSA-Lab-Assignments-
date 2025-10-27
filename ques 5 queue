@@ -1,0 +1,15 @@
+#include <iostream>
+using namespace std;
+int main(){
+    int q1[100],q2[100],f1=0,r1=-1,f2=0,r2=-1;
+    int n,x;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        cin>>x;
+        q2[++r2]=x;
+        while(f1<=r1) q2[++r2]=q1[f1++];
+        f1=0; r1=r2; r2=-1; f2=0;
+        for(int j=0;j<=r1;j++) q1[j]=q2[j];
+    }
+    while(f1<=r1) cout<<q1[f1++]<<" ";
+}
