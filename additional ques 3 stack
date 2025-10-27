@@ -1,0 +1,14 @@
+#include <iostream>
+using namespace std;
+int main(){
+    int n;
+    cin>>n;
+    int a[n],st[n],top=-1,res[n];
+    for(int i=0;i<n;i++) cin>>a[i];
+    for(int i=n-1;i>=0;i--){
+        while(top!=-1 && st[top]<=a[i]) top--;
+        if(top==-1) res[i]=-1; else res[i]=st[top];
+        st[++top]=a[i];
+    }
+    for(int i=0;i<n;i++) cout<<res[i]<<" ";
+}
