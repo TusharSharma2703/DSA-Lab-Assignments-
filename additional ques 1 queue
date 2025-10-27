@@ -1,0 +1,15 @@
+#include <iostream>
+using namespace std;
+int main(){
+    int n;
+    cin>>n;
+    string q[100];
+    int f=0,r=-1;
+    q[++r]="1";
+    for(int i=1;i<=n;i++){
+        string s=q[f++];
+        cout<<s<<" ";
+        q[++r]=s+"0";
+        q[++r]=s+"1";
+    }
+}
