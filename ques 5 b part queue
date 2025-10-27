@@ -1,0 +1,15 @@
+#include <iostream>
+using namespace std;
+int main(){
+    int q[100],f=0,r=-1;
+    int n,x;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        cin>>x;
+        q[++r]=x;
+        for(int j=f;j<r;j++){
+            q[++r]=q[f++];
+        }
+    }
+    while(f<=r) cout<<q[f++]<<" ";
+}
