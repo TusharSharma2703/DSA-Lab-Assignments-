@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+#define MAX 100
+int st[MAX],mn[MAX],top=-1;
+void push(int x){
+    if(top==MAX-1) return;
+    st[++top]=x;
+    mn[top]=(top==0)?x:min(x,mn[top-1]);
+}
+void pop(){ if(top>=0) top--; }
+int getMin(){ return mn[top]; }
+int main(){
+    int n,x;
+    cin>>n;
+    for(int i=0;i<n;i++){ cin>>x; push(x); }
+    cout<<getMin();
+}
