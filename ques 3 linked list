@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+struct Node{ int data; Node* next; };
+int main(){
+    Node* head=NULL,*tail=NULL;
+    int n,x; cin>>n;
+    for(int i=0;i<n;i++){
+        cin>>x;
+        Node* t=new Node{x,NULL};
+        if(!head) head=tail=t;
+        else{ tail->next=t; tail=t; }
+    }
+    Node* slow=head,*fast=head;
+    while(fast && fast->next){
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    cout<<slow->data;
+}
