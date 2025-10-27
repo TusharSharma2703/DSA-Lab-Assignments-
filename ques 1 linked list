@@ -1,0 +1,90 @@
+#include <iostream>
+using namespace std;
+struct Node{
+    int data;
+    Node* next;
+};
+Node* head=NULL;
+
+void insertBeg(int x){
+    Node* t=new Node{x,head};
+    head=t;
+}
+void insertEnd(int x){
+    Node* t=new Node{x,NULL};
+    if(!head){ head=t; return; }
+    Node* p=head;
+    while(p->next) p=p->next;
+    p->next=t;
+}
+void insertAfter(int val,int x){
+    Node* p=head;
+    while(p && p->data!=val) p=p->next;
+    if(p){
+        Node* t=new Node{x,p->next};
+        p->next=t;
+    }
+}
+void insertBefore(int val,int x){
+    if(!head) return;
+    if(head->data==val){ insertBeg(x); return; }
+    Node* p=head;
+    while(p->next && p->next->data!=val) p=p->next;
+    if(p->next){
+        Node* t=new Node{x,p->next};
+        p->next=t;
+    }
+}
+void delBeg(){
+    if(!head) return;
+    Node* t=head;
+    head=head->next;
+    delete t;
+}
+void delEnd(){
+    if(!head) return;
+    if(!head->next){ delete head; head=NULL; return; }
+    Node* p=head;
+    while(p->next->next) p=p->next;
+    delete p->next;
+    p->next=NULL;
+}
+void delNode(int val){
+    if(!head) return;
+    if(head->data==val){ delBeg(); return; }
+    Node* p=head;
+    while(p->next && p->next->data!=val) p=p->next;
+    if(p->next){
+        Node* t=p->next;
+        p->next=t->next;
+        delete t;
+    }
+}
+void searchNode(int val){
+    Node* p=head; int pos=1;
+    while(p){ if(p->data==val){ cout<<"Found at position "<<pos<<"\n"; return; } p=p->next; pos++; }
+    cout<<"Not found\n";
+}
+void display(){
+    Node* p=head;
+    while(p){ cout<<p->data<<" "; p=p->next; }
+    cout<<"\n";
+}
+int main(){
+    int ch,x,val;
+    do{
+        cout<<"1.InsertBeg 2.InsertEnd 3.InsertBefore 4.InsertAfter 5.DelBeg 6.DelEnd 7.DelNode 8.Search 9.Display 0.Exit\n";
+        cin>>ch;
+        switch(ch){
+            case 1:cin>>x;insertBeg(x);break;
+            case 2:cin>>x;insertEnd(x);break;
+            case 3:cin>>val>>x;insertBefore(val,x);break;
+            case 4:cin>>val>>x;insertAfter(val,x);break;
+            case 5:delBeg();break;
+            case 6:delEnd();break;
+            case 7:cin>>val;delNode(val);break;
+            case 8:cin>>val;searchNode(val);break;
+            case 9:display();break;
+        }
+    }while(ch!=0);
+}
