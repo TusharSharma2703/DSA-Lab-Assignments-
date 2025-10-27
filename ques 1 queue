@@ -1,0 +1,40 @@
+#include <iostream>
+using namespace std;
+#define MAX 100
+int q[MAX],front=-1,rear=-1;
+void enqueue(int x){
+    if(rear==MAX-1) cout<<"Overflow\n";
+    else{
+        if(front==-1) front=0;
+        q[++rear]=x;
+    }
+}
+void dequeue(){
+    if(front==-1||front>rear) cout<<"Underflow\n";
+    else front++;
+}
+int isEmpty(){ return (front==-1||front>rear); }
+int isFull(){ return rear==MAX-1; }
+void display(){
+    if(isEmpty()) cout<<"Empty\n";
+    else for(int i=front;i<=rear;i++) cout<<q[i]<<" ";
+    cout<<"\n";
+}
+void peek(){
+    if(isEmpty()) cout<<"Empty\n";
+    else cout<<q[front]<<"\n";
+}
+int main(){
+    int ch,x;
+    do{
+        cin>>ch;
+        switch(ch){
+            case 1: cin>>x; enqueue(x); break;
+            case 2: dequeue(); break;
+            case 3: cout<<isEmpty()<<"\n"; break;
+            case 4: cout<<isFull()<<"\n"; break;
+            case 5: display(); break;
+            case 6: peek(); break;
+        }
+    }while(ch!=0);
+}
