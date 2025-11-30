@@ -1,0 +1,76 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct Edge {
+    int u, v, w;
+};
+
+int findParent(int x, vector<int> &parent) {
+    if (parent[x] == x) return x;
+    return parent[x] = findParent(parent[x], parent);
+}
+
+int main() {
+    int n, m;
+    cin >> n >> m;
+    vector<Edge> edges(m);
+    const int INF = 1000000000;
+    vector<vector<int>> cost(n + 1, vector<int>(n + 1, INF));
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i].u >> edges[i].v >> edges[i].w;
+        int u = edges[i].u;
+        int v = edges[i].v;
+        int w = edges[i].w;
+        if (w < cost[u][v]) {
+            cost[u][v] = w;
+            cost[v][u] = w;
+        }
+    }
+
+    sort(edges.begin(), edges.end(), [](const Edge &a, const Edge &b) {
+        return a.w < b.w;
+    });
+    vector<int> parent(n + 1);
+    for (int i = 1; i <= n; i++) parent[i] = i;
+    int kruskalWeight = 0;
+    int kruskalEdges = 0;
+    for (auto e : edges) {
+        int pu = findParent(e.u, parent);
+        int pv = findParent(e.v, parent);
+        if (pu != pv) {
+            parent[pu] = pv;
+            kruskalWeight += e.w;
+            kruskalEdges++;
+            if (kruskalEdges == n - 1) break;
+        }
+    }
+
+    vector<int> key(n + 1, INF);
+    vector<int> inMST(n + 1, 0);
+    key[1] = 0;
+    int primWeight = 0;
+    for (int i = 1; i <= n; i++) {
+        int u = -1;
+        int minKey = INF;
+        for (int v = 1; v <= n; v++) {
+            if (!inMST[v] && key[v] < minKey) {
+                minKey = key[v];
+                u = v;
+            }
+        }
+        if (u == -1) break;
+        inMST[u] = 1;
+        primWeight += (i == 1 ? 0 : minKey);
+        for (int v = 1; v <= n; v++) {
+            if (!inMST[v] && cost[u][v] < key[v]) {
+                key[v] = cost[u][v];
+            }
+        }
+    }
+
+    cout << kruskalWeight << endl;
+    cout << primWeight << endl;
+    return 0;
+}
